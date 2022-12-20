@@ -1,15 +1,5 @@
-// const inquirer = require('inquirer');
-// import fs = require('fs');
-//new version of inquirer requires imports
-
-//just some notes for myself
-//first letters in require path need to be capitalized in tests 
-//github vs GH might be issue?
 const fs = require('fs')
 const inquirer = require('inquirer')// import prompts from './lib/prompts.js'
-// import Manager from './lib/manager.js'
-// import Engineer from './lib/engineer.js'
-// import Intern from './lib/intern.js'
 const prompts = require('./lib/prompts')
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
@@ -21,11 +11,9 @@ const teamObjects = []
 const managerQ = () => {
     inquirer.prompt(prompts.manager)
         .then(data => {
-            console.log(data)
             const manager = new Manager(data.name, data.id, data.email, data.office)
             teamObjects.push(manager)
-            console.log(teamObjects)
-            //menu()
+            menu()
         })
 }
 
@@ -50,10 +38,8 @@ const menu = () => {
 //engineer function
 const engineerQ = () => {
     inquirer.prompt(prompts.engineer).then(data => {
-        console.log(data);
         const engineer = new Engineer(data.name, data.id, data.email, data.github);
-        teamInfo.push(engineer);
-        console.log(teamObjects);
+        teamObjects.push(engineer);
         menu();
     })
 }
@@ -61,12 +47,14 @@ const engineerQ = () => {
 //questions for intern role
 const internQ = () => {
     inquirer.prompt(prompts.intern).then(data => {
-        console.log(data);
         const intern = new Intern(data.name, data.id, data.email, data.school);
-        teamInfo.push(intern);
-        console.log(teamObjects);
+        teamObjects.push(intern);
         menu();
     })
+}
+
+const buildTeam = () => {
+    console.log(teamObjects)
 }
 
 const generateHTML = (teamInfo) => {

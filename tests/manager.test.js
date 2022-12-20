@@ -4,7 +4,7 @@ const Manager = require('../lib/manager');
 //add office number at bottom
 describe('Manager', () => {
     describe('getName', () => {
-        it('should return name of manager', () => {
+        it('Should bring back name enterd', () => {
             const manager = new Manager()
             const teamMember = 'Ducki'
             manager.getName(teamMember)
@@ -12,7 +12,7 @@ describe('Manager', () => {
         })
     })
     describe('getId', () => {
-        it('should return id of new manager', () => {
+        it('Should bring back id entered', () => {
             const manager = new Manager()
             const id = '1234567890'
             manager.getId(id)
