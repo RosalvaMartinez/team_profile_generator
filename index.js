@@ -152,28 +152,28 @@ const internCard = (teamInfo) => {
 }
 //function .push info 
 
-//set up to generate html
-const teamMembers = []
-const cardsHTML = ``
-teamMembers.forEach(member => {
-    switch (role) {
-        case 'Manager':
-            cardHTML = managerCard(member);
-            break;
-        case 'Engineer':
-            cardHTML = engineerCard(member);
-            break;
-        case 'Intern':
-            cardHTML = internCard(member); 
-            break;
-    }
-})
-
-cardsHTML = ``
-generateHTML(cardHTML)
-
 function init() {
     managerQ()
+
+    //set up to generate html
+    const teamMembers = []
+    const cardsHTML = ``
+    teamMembers.forEach(member => {
+        switch (role) {
+            case 'Manager':
+                cardHTML = managerCard(member);
+                break;
+            case 'Engineer':
+                cardHTML = engineerCard(member);
+                break;
+            case 'Intern':
+                cardHTML = internCard(member);
+                break;
+        }
+    })
+
+    cardsHTML = ``
+    generateHTML(cardHTML)
 }
 
 init()

@@ -1,9 +1,13 @@
-const inquirer = require('inquirer')// import prompts from './lib/prompts.js'
-const prompts = require('./lib/prompts')
-const Manager = require('./lib/manager');
-const Engineer = require('./lib/engineer');
-const Intern = require('./lib/intern');
+const Employee = require('../lib/employee')
+const Engineer = require('../lib/engineer')
+const Intern = require('../lib/intern')
+const Manager = require('../lib/manager')
 
-describe('Team Builder', ()=> {
-    
+describe('Team Builder', () => {
+    test('Create a dummy team using dummy data', () => {
+        const employee = new Employee('Ducki', '123456', 'ducki@gmail.com')
+        const engineer = new Engineer('Whiskey', '654321', 'whiskey@yahoo.com')
+        const intern = new Intern('Bruce', '67890', 'bruce@gmail.com')
+        const manager = new Manager('Goose', '4567890', 'goose@gmail.com')
+    })  
 })
