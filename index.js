@@ -93,7 +93,7 @@ const managerCard = (manager) => {
     return `<div class="col" style="max-width: 19rem">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${manager.getName()}</p>
-        <p>Manager</p> 
+        <p class="bi bi-cup-hot-fill"> Manager</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
@@ -110,7 +110,7 @@ const engineerCard = (engineer) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${engineer.getName()}</p>
-        <p>Engineer</p> 
+        <p class="bi bi-tools"> Engineer</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
@@ -128,7 +128,7 @@ const internCard = (intern) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${intern.getName()}</p>
-        <p>Intern</p> 
+        <p class="bi bi-person-fill"> Intern</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
