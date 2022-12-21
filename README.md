@@ -8,7 +8,10 @@
   
 Generator facilitates creating a team profile through a Node.js command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person. 
   
+  ## Video Link
   
+  
+  https://drive.google.com/file/d/1YqJE6WQB9En9dW7mFkw5X2dIvRvOf-IW/view
 
 
   ## Table of Contents
