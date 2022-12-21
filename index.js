@@ -5,6 +5,7 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
+//Creates and returns a Manager object using inquirer
 const createManager = async () => {
     const data = await inquirer.prompt(prompts.manager)
     const manager = new Manager(data.name, data.id, data.email, data.office)
@@ -15,7 +16,7 @@ const createManager = async () => {
     //     })
 }
 
-//engineer function
+//Creates and returns a Engineer object using inquirer
 const createEngineer = async () => {
     const data = await inquirer.prompt(prompts.engineer)
     const engineer = new Engineer(data.name, data.id, data.email, data.github)
@@ -25,7 +26,7 @@ const createEngineer = async () => {
     // })
 }
 
-//questions for intern role
+//Creates and returns a Intern object using inquirer
 const createIntern = async () => {
     const data = await inquirer.prompt(prompts.intern)
     const intern = new Intern(data.name, data.id, data.email, data.school)
@@ -35,6 +36,7 @@ const createIntern = async () => {
     // })
 }
 
+//Generates and returns HTML representing team members cards
 const buildTeam = (teamMembers) => {
     var cardHTML = ``
     teamMembers.forEach(member => {
@@ -53,6 +55,7 @@ const buildTeam = (teamMembers) => {
     return cardHTML
 }
 
+//Generates and returns a string representing a complete HTML document
 const generateHTML = (cardData) => {
     return `<!DOCTYPE html>
     <html lang="en">
@@ -89,6 +92,7 @@ const generateHTML = (cardData) => {
         `
 };
 
+//Generates and returns a string representing a card component for a Manager 
 const managerCard = (manager) => {
     return `<div class="col" style="max-width: 19rem">
     <div class="card-header bg-primary text-white text-capitalize">
@@ -106,6 +110,7 @@ const managerCard = (manager) => {
 </div>`
 }
 
+//Generates and returns a string representing a card component for a Engineer
 const engineerCard = (engineer) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
@@ -124,6 +129,7 @@ const engineerCard = (engineer) => {
 </div>`
 }
 
+//Generates and returns a string representing a card component for a Intern
 const internCard = (intern) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
@@ -141,19 +147,23 @@ const internCard = (intern) => {
 </div>`
 }
 
+// ENTRY POINT
 async function init() {
     const teamMembers = []
+    //Prompt and creates a Manager object
     const manager = await createManager()
     teamMembers.push(manager)
-
+    //Loop until user responds with 'Finished'
     do {
         var results = await inquirer.prompt(prompts.menu)
         switch (results.choice) {
-            case 'Engineer':
+            case 'Engineer': 
+                //Prompt and creates an Engineer object
                 const engineer = await createEngineer();
                 teamMembers.push(engineer);
                 break;
             case 'Intern':
+                //Prompt and creates an Intern object
                 const intern = await createIntern();
                 teamMembers.push(intern);
                 break;
@@ -161,8 +171,10 @@ async function init() {
                 break;
         }
     } while (results.choice !== 'Finished')
+    //Generates HTML 
     const cards = buildTeam(teamMembers)
     const html = generateHTML(cards)
+    //Creates HTML file 
     fs.writeFile('dist/team.profile.html', html, (err) =>
         err ? console.log(err) : console.log('Your file has been created! Check dist/team.profile.html')
     );
