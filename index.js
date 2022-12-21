@@ -53,11 +53,25 @@ const internQ = () => {
     })
 }
 
-const buildTeam = () => {
+const buildTeam = (teamMembers) => {
     console.log(teamObjects)
+    const cardHTML = ``
+    teamMembers.forEach(member => {
+        switch (member.getRole()) {
+            case 'Manager':
+                cardHTML += managerCard(member);
+                break;
+            case 'Engineer':
+                cardHTML += engineerCard(member);
+                break;
+            case 'Intern':
+                cardHTML += internCard(member);
+                break;
+        }
+    })
 }
 
-const generateHTML = (teamInfo) => {
+const generateHTML = (cardData) => {
     //insert some html between ``
     return `<!DOCTYPE html>
     <html lang="en">
@@ -80,7 +94,7 @@ const generateHTML = (teamInfo) => {
     
         <section>
             <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center m-2">
-                ${cardinfo}
+                ${cardData}
                     
                 </div>
             
@@ -95,18 +109,18 @@ const generateHTML = (teamInfo) => {
 };
 
 //(data.name, data.id, data.email, data.office)
-const managerCard = (teamInfo) => {
+const managerCard = (manager) => {
     return `<div class="col" style="max-width: 19rem">
     <div class="card-header bg-primary text-white text-capitalize">
-        <p class="h5">${data.name}</p>
+        <p class="h5">${manager.getName()}</p>
         <p></p> Manager
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${data.id}</li>
+            <li class="list-group-item">ID: ${manager.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
-                    target="_blank">${data.email}</a></li>
-            <li class="list-group-item">Office number: ${data.office}</li>
+                    target="_blank">${manager.getEmail()}</a></li>
+            <li class="list-group-item">Office number: ${manager.getOffice()}</li>
         </ul>
     </div>
 </div>`
@@ -114,19 +128,19 @@ const managerCard = (teamInfo) => {
 //function .push info
 
 //data.name, data.id, data.email, data.github);
-const engineerCard = (teamInfo) => {
+const engineerCard = (engineer) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
-        <p class="h5">${data.name}</p>
+        <p class="h5">${engineer.getName()}</p>
         <p></p> Engineer
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${data.id}</li>
+            <li class="list-group-item">ID: ${engineer.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
-                    target="_blank">${data.email}</a></li>
+                    target="_blank">${engineer.getEmail()}</a></li>
             <li class="list-group-item">Github Username: <a href="http://www.github.com/ducki"
-                    target="_blank">${data.github}</a></li>
+                    target="_blank">${engineer.getGH()}</a></li>
         </ul>
     </div>
 </div>`
@@ -134,18 +148,18 @@ const engineerCard = (teamInfo) => {
 //function .push info
 
 //data.name, data.id, data.email, data.school)
-const internCard = (teamInfo) => {
+const internCard = (intern) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
-        <p class="h5">${data.name}</p>
+        <p class="h5">${intern.getName()}</p>
         <p></p> Intern
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${data.id}</li>
+            <li class="list-group-item">ID: ${intern.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
-                    target="_blank">${data.email}</a></li>
-            <li class="list-group-item">School: ${data.school}</li>
+                    target="_blank">${intern.getEmail()}</a></li>
+            <li class="list-group-item">School: ${intern.getSchool()}</li>
         </ul>
     </div>
 </div>`
@@ -156,24 +170,11 @@ function init() {
     managerQ()
 
     //set up to generate html
-    const teamMembers = []
-    const cardsHTML = ``
-    teamMembers.forEach(member => {
-        switch (role) {
-            case 'Manager':
-                cardHTML = managerCard(member);
-                break;
-            case 'Engineer':
-                cardHTML = engineerCard(member);
-                break;
-            case 'Intern':
-                cardHTML = internCard(member);
-                break;
-        }
-    })
-
-    cardsHTML = ``
-    generateHTML(cardHTML)
+    var cardsHTML = buildTeam()
+    var html = generateHTML(cardsHTML)
+    fs.writeFile('dist/team.profile.html', html, (err) =>
+        err ? console.log(err) : console.log('GO DUCKI')
+    );
 }
 
 init()
