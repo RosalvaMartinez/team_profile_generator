@@ -1,61 +1,42 @@
 const fs = require('fs')
 const inquirer = require('inquirer')// import prompts from './lib/prompts.js'
 const prompts = require('./lib/prompts')
-const Manager = require('./lib/manager');
-const Engineer = require('./lib/engineer');
-const Intern = require('./lib/intern');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-//Empty array for data input to create cards
-const teamObjects = []
-//////////////////////////////////
-const managerQ = () => {
-    inquirer.prompt(prompts.manager)
-        .then(data => {
-            const manager = new Manager(data.name, data.id, data.email, data.office)
-            teamObjects.push(manager)
-            menu()
-        })
-}
-
-//select from menu options for next team member
-const menu = () => {
-    inquirer.prompt(prompts.menu)
-        .then(selected => {
-            switch (selected.menu) {
-                case 'Engineer':
-                    engineerQ();
-                    break;
-                case 'Intern':
-                    internQ();
-                    break;
-                case 'Finished':
-                    buildTeam();
-                    break;
-            }
-        })
+const createManager = async () => {
+    const data = await inquirer.prompt(prompts.manager)
+    const manager = new Manager(data.name, data.id, data.email, data.office)
+    return manager
+    // inquirer.prompt(prompts.manager)
+    //     .then(data => {
+    //         const manager = new Manager(data.name, data.id, data.email, data.office)
+    //     })
 }
 
 //engineer function
-const engineerQ = () => {
-    inquirer.prompt(prompts.engineer).then(data => {
-        const engineer = new Engineer(data.name, data.id, data.email, data.github);
-        teamObjects.push(engineer);
-        menu();
-    })
+const createEngineer = async () => {
+    const data = await inquirer.prompt(prompts.engineer)
+    const engineer = new Engineer(data.name, data.id, data.email, data.github)
+    return engineer
+    // inquirer.prompt(prompts.engineer).then(data => {
+    //     const engineer = new Engineer(data.name, data.id, data.email, data.github);
+    // })
 }
 
 //questions for intern role
-const internQ = () => {
-    inquirer.prompt(prompts.intern).then(data => {
-        const intern = new Intern(data.name, data.id, data.email, data.school);
-        teamObjects.push(intern);
-        menu();
-    })
+const createIntern = async () => {
+    const data = await inquirer.prompt(prompts.intern)
+    const intern = new Intern(data.name, data.id, data.email, data.school)
+    return intern
+    // inquirer.prompt(prompts.intern).then(data => {
+    //     const intern = new Intern(data.name, data.id, data.email, data.school);
+    // })
 }
 
 const buildTeam = (teamMembers) => {
-    console.log(teamObjects)
-    const cardHTML = ``
+    var cardHTML = ``
     teamMembers.forEach(member => {
         switch (member.getRole()) {
             case 'Manager':
@@ -69,10 +50,10 @@ const buildTeam = (teamMembers) => {
                 break;
         }
     })
+    return cardHTML
 }
 
 const generateHTML = (cardData) => {
-    //insert some html between ``
     return `<!DOCTYPE html>
     <html lang="en">
     
@@ -108,12 +89,11 @@ const generateHTML = (cardData) => {
         `
 };
 
-//(data.name, data.id, data.email, data.office)
 const managerCard = (manager) => {
     return `<div class="col" style="max-width: 19rem">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${manager.getName()}</p>
-        <p></p> Manager
+        <p>Manager</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
@@ -125,14 +105,12 @@ const managerCard = (manager) => {
     </div>
 </div>`
 }
-//function .push info
 
-//data.name, data.id, data.email, data.github);
 const engineerCard = (engineer) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${engineer.getName()}</p>
-        <p></p> Engineer
+        <p>Engineer</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
@@ -145,14 +123,12 @@ const engineerCard = (engineer) => {
     </div>
 </div>`
 }
-//function .push info
 
-//data.name, data.id, data.email, data.school)
 const internCard = (intern) => {
     return `<div class="col" style="max-width: 19rem;">
     <div class="card-header bg-primary text-white text-capitalize">
         <p class="h5">${intern.getName()}</p>
-        <p></p> Intern
+        <p>Intern</p> 
     </div>
     <div class="card-body border bg-secondary bg-gradient" style="height:10rem">
         <ul class="list-group list-group-flush">
@@ -164,16 +140,31 @@ const internCard = (intern) => {
     </div>
 </div>`
 }
-//function .push info 
 
-function init() {
-    managerQ()
+async function init() {
+    const teamMembers = []
+    const manager = await createManager()
+    teamMembers.push(manager)
 
-    //set up to generate html
-    var cardsHTML = buildTeam()
-    var html = generateHTML(cardsHTML)
+    do {
+        var results = await inquirer.prompt(prompts.menu)
+        switch (results.choice) {
+            case 'Engineer':
+                const engineer = await createEngineer();
+                teamMembers.push(engineer);
+                break;
+            case 'Intern':
+                const intern = await createIntern();
+                teamMembers.push(intern);
+                break;
+            case 'Finished':
+                break;
+        }
+    } while (results.choice !== 'Finished')
+    const cards = buildTeam(teamMembers)
+    const html = generateHTML(cards)
     fs.writeFile('dist/team.profile.html', html, (err) =>
-        err ? console.log(err) : console.log('GO DUCKI')
+        err ? console.log(err) : console.log('Your file has been created! Check dist/team.profile.html')
     );
 }
 
