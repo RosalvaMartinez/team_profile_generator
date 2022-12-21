@@ -99,7 +99,7 @@ const managerCard = (manager) => {
         <p class="h5">${manager.getName()}</p>
         <p class="bi bi-cup-hot-fill"> Manager</p> 
     </div>
-    <div class="card-body border" style="height:10rem">
+    <div class="card-body border" style="height:12rem">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${manager.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
@@ -117,7 +117,7 @@ const engineerCard = (engineer) => {
         <p class="h5">${engineer.getName()}</p>
         <p class="bi bi-tools"> Engineer</p> 
     </div>
-    <div class="card-body border" style="height:10rem">
+    <div class="card-body border" style="height:12rem">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${engineer.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
@@ -136,7 +136,7 @@ const internCard = (intern) => {
         <p class="h5">${intern.getName()}</p>
         <p class="bi bi-person-fill"> Intern</p> 
     </div>
-    <div class="card-body border" style="height:10rem">
+    <div class="card-body border" style="height:12rem">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${intern.getId()}</li>
             <li class="list-group-item">Email: <a href="mailto:ducki@gmail.com"
